@@ -40,6 +40,25 @@ func main() {
 	code := string(buffer)
 	codeLen := len(code)
 
-	fmt.Println(codeLen, " Byte.")
-	fmt.Println(code)
+	for codePtr < codeLen {
+		switch code[codePtr] {
+		case increment:
+
+		case decrement:
+
+		case right:
+
+		case left:
+
+		case loopStart:
+
+		case loopEnd:
+
+		case output:
+
+		case input:
+		}
+
+		codePtr++
+	}
 }
