@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
@@ -67,8 +68,16 @@ func main() {
 		case loopEnd:
 
 		case output:
+			fmt.Print(string(memory[ptr]))
 
 		case input:
+			reader := bufio.NewReader(os.Stdin)
+			line, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			memory[ptr] = line[0]
 		}
 
 		codePtr++
