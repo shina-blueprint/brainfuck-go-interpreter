@@ -24,6 +24,7 @@ func main() {
 		memory  [memorySize]byte
 		ptr     int
 		codePtr int
+		loops   []int
 	)
 
 	if len(os.Args) < 2 {
@@ -63,8 +64,32 @@ func main() {
 			}
 
 		case loopStart:
+			loops = append(loops, codePtr)
+			if memory[ptr] == 0 {
+				depth := 1
+				for depth > 0 {
+					codePtr++
+					if codePtr >= codeLen {
+						fmt.Fprintln(os.Stderr, "Error: Loop end order, "+string(loopEnd)+", is not found.")
+						os.Exit(1)
+					}
+					if code[codePtr] == loopStart {
+						depth++
+					}
+					if code[codePtr] == loopEnd {
+						depth--
+					}
+				}
+				loops = loops[:len(loops)-1]
+			}
 
 		case loopEnd:
+			if len(loops) == 0 {
+				fmt.Fprintln(os.Stderr, "Error: Loop start order, "+string(loopStart)+", is not found.")
+				os.Exit(1)
+			}
+			codePtr = loops[len(loops)-1] - 1
+			loops = loops[:len(loops)-1]
 
 		case output:
 			fmt.Print(string(memory[ptr]))
