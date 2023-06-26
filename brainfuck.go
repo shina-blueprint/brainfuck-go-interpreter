@@ -42,12 +42,24 @@ func main() {
 	for codePtr < codeLen {
 		switch code[codePtr] {
 		case increment:
+			memory[ptr]++
 
 		case decrement:
+			memory[ptr]--
 
 		case right:
+			if ptr >= memorySize-1 {
+				ptr = 0
+			} else {
+				ptr++
+			}
 
 		case left:
+			if ptr <= 0 {
+				ptr = memorySize - 1
+			} else {
+				ptr--
+			}
 
 		case loopStart:
 
